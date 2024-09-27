@@ -1,0 +1,52 @@
+{
+    "guia_datos": {
+        "serie": "T001",
+        "numero": "53953",
+        "f_emision": "2024-07-11",
+        "f_traslado": "2024-07-12",
+        "ruc": "20609670518",
+        "razon_social": "FIESTAS BRAVAS GROUP S.A.C",
+        "motivo": "1",
+        "modalidad": "2",
+        "transporte_ruc": "",
+        "transporte_razon_social": "",
+        "num_registro_mtc": "",
+        "chofer_nombres": "",
+        "chofer_apellidos": "",
+        "chofer_dni": "",
+        "chofer_licencia": "",
+        "carro_placa": "",
+        "distrito_llegada": "150105",
+        "direccion_llegada": "PRUEBA DIRECCION LLEGADA",
+        "distrito_partida": "50302",
+        "direccion_partida": "PRUEBA DIRECCION PARTIDA",
+        "peso_bruto_total": "112.221",
+        "numero_bultos": "12",
+        "lectura": "true"
+    },
+    "destinatario": {
+        "ruc": "10747375160",
+        "razon_social": "ZORAYA MARCELA PACHAS GARCIA",
+        "numero_documento": "",
+        "apellidoPaterno": "",
+        "apellidoMaterno": "",
+        "nombres": ""
+    },
+    "guia_products": [
+        {
+            "cod_producto": "182",
+            "cantidad": "100",
+            "product_name": "OTRO 1.5 L"
+        },
+        {
+            "cod_producto": "182",
+            "cantidad": "100",
+            "product_name": "OTRO 1.4 L"
+        },
+        {
+            "cod_producto": "182",
+            "cantidad": "100",
+            "product_name": "OTRO 1.3 L"
+        }
+    ]
+}

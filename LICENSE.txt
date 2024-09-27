@@ -1,0 +1,12 @@
+Copyright © 2022-2025
+
+Este proyecto utiliza AdminLTE de AdminLTE.io.
+
+Para conocer los términos y condiciones de la licencia de AdminLTE, visite https://adminlte.io/.
+
+LASA
+[Tu dirección de contacto o información de contacto]
+
+Licencia del Proyecto LASA:
+
+[Texto de tu propia licencia]
