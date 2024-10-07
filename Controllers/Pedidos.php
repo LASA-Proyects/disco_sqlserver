@@ -845,7 +845,7 @@ class Pedidos extends Controller{
             $data['precio'] = $result['precio_venta'];
             $data['cantidad'] = $productos['cantidad'];
             $sub_total = $result['precio_venta']*$productos['cantidad'];
-            if($result['afecta_igv'] === 0){
+            if($result['afecta_igv'] == 0){
                 $data['igv'] = '<span class="badge badge-danger">No</span>';
                 $data['igv_dato'] = 0;
                 $data['sub_total'] = number_format($sub_total, 2);
