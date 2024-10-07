@@ -1315,7 +1315,7 @@ class PedidosModel extends Query{
     }
     public function buscarPedidoSunat(int $id_pedido)
     {
-        $sql = "SELECT * FROM pedidos WHERE ".db_conect."Fcfmanumero = $id_pedido";
+        $sql = "SELECT * FROM ".db_conect."pedidos WHERE Fcfmanumero = $id_pedido";
         $data = $this->select($sql);
         return $data;
     }
