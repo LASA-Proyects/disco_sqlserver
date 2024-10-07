@@ -125,42 +125,46 @@ class Productos extends Controller{
         $usuario = $this->model->getUsuarios($id_usuario);
         $id_almacen = $usuario['id_almacen'];
         $data = $this->model->getProductos();
-        for ($i=0; $i < count($data); $i++){
-            $existen_registros = $this->model->verificarMovArt($data[$i]['id']);
+        $ids_productos = array_column($data, 'id'); 
+        $productos_con_registros = $this->model->verificarMovArtTodos($ids_productos);
+        $ids_con_registros = array_column($productos_con_registros, 'id_producto');
+        for ($i = 0; $i < count($data); $i++) {
+            $existen_registros = in_array($data[$i]['id'], $ids_con_registros);
             if ($existen_registros) {
                 if ($data[$i]['estado'] == 1) {
                     $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
-                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="'.base_url."Assets/img/".$data[$i]['foto'].'" width="56">';
+                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . base_url . "Assets/img/" . $data[$i]['foto'] . '" width="56">';
                     $data[$i]['acciones'] = '<div class="btn-group" style="display: flex; justify-content: center;">
-                    <button class="btn btn-warning btn-sm" type="button" onclick="btnEditarProduct('.$data[$i]['id'].');"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-success btn-sm" type="button" onclick="btnEstadoProducto('.$data[$i]['id'].');"><i class="fas fa-toggle-on"></i></button>
-                    <div/>';
+                        <button class="btn btn-warning btn-sm" type="button" onclick="btnEditarProduct(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-success btn-sm" type="button" onclick="btnEstadoProducto(' . $data[$i]['id'] . ');"><i class="fas fa-toggle-on"></i></button>
+                        <div/>';
                 } else {
                     $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
-                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="'.base_url."Assets/img/".$data[$i]['foto'].'" width="100">';
+                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . base_url . "Assets/img/" . $data[$i]['foto'] . '" width="100">';
                     $data[$i]['acciones'] = '<div>
-                    <button class="btn btn-secondary" type="button" onclick="btnActivarProducto('.$data[$i]['id'].');"><i class="fas fa-toggle-off"></i></button>
-                    <div/>';
+                        <button class="btn btn-secondary" type="button" onclick="btnActivarProducto(' . $data[$i]['id'] . ');"><i class="fas fa-toggle-off"></i></button>
+                        <div/>';
                 }
             } else {
                 if ($data[$i]['estado'] == 1) {
                     $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
-                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="'.base_url."Assets/img/".$data[$i]['foto'].'" width="56">';
+                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . base_url . "Assets/img/" . $data[$i]['foto'] . '" width="56">';
                     $data[$i]['acciones'] = '<div class="btn-group" style="display: flex; justify-content: center;">
-                    <button class="btn btn-warning btn-sm" type="button" onclick="btnEditarProduct('.$data[$i]['id'].');"><i class="fas fa-edit"></i></button>
-                    <a class="btn btn-primary btn-sm" href="'.base_url.'Productos/receta/'.$data[$i]['id'].'"><i class="fas fa-book"></i></a>
-                    <button class="btn btn-success btn-sm" type="button" onclick="btnEstadoProducto('.$data[$i]['id'].');"><i class="fas fa-toggle-on"></i></button>
-                    <button class="btn btn-danger btn-sm" type="button" onclick="btnEliminarProduct('.$data[$i]['id'].');"><i class="fas fa-trash"></i></button>
-                    <div/>';
+                        <button class="btn btn-warning btn-sm" type="button" onclick="btnEditarProduct(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
+                        <a class="btn btn-primary btn-sm" href="' . base_url . 'Productos/receta/' . $data[$i]['id'] . '"><i class="fas fa-book"></i></a>
+                        <button class="btn btn-success btn-sm" type="button" onclick="btnEstadoProducto(' . $data[$i]['id'] . ');"><i class="fas fa-toggle-on"></i></button>
+                        <button class="btn btn-danger btn-sm" type="button" onclick="btnEliminarProduct(' . $data[$i]['id'] . ');"><i class="fas fa-trash"></i></button>
+                        <div/>';
                 } else {
                     $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
-                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="'.base_url."Assets/img/".$data[$i]['foto'].'" width="100">';
+                    $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . base_url . "Assets/img/" . $data[$i]['foto'] . '" width="100">';
                     $data[$i]['acciones'] = '<div>
-                    <button class="btn btn-secondary" type="button" onclick="btnActivarProducto('.$data[$i]['id'].');"><i class="fas fa-toggle-off"></i></button>
-                    <div/>';
+                        <button class="btn btn-secondary" type="button" onclick="btnActivarProducto(' . $data[$i]['id'] . ');"><i class="fas fa-toggle-off"></i></button>
+                        <div/>';
                 }
             }
         }
+    
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }

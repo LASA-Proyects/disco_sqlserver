@@ -427,11 +427,11 @@ class ProductosModel extends Query{
         return $res;
     }
 
-    public function verificarMovArt(int $id)
+    public function verificarMovArtTodos(array $ids)
     {
-        $sql = "SELECT TOP 1 * FROM ".db_conect."v_invdetal WHERE id_producto = $id AND id_familia != 9";
-        $data = $this->select($sql);
-        return $data;
+        $ids_string = implode(",", $ids);
+        $sql = "SELECT id_producto FROM ".db_conect."v_invdetal WHERE id_producto IN ($ids_string) AND id_familia != 9";
+        return $this->selectAll($sql);
     }
 
     public function verificarPermisoTerm(int $id_usuario, string $permiso)
