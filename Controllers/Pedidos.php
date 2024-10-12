@@ -2673,77 +2673,70 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('C5', 'PRECIO');
         $sheet2->setCellValue('D5', 'CANTIDAD');
         $sheet2->setCellValue('E5', 'IMPORTE');
+        $sheet2->setCellValue('F5', 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G5', 'VALOR STOCK SOLES');
         
         $row = 6;
         $total_cobranza_cocina = 0;
+        $total_cobranza_cocina_costoPromedio = 0;
+        $total_cobranza_cocina_valorStock = 0;
         foreach ($pedidos_cocina_cobranza as $pedido) {
             $sheet2->setCellValue('A'.$row, $pedido['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido['precio']);
             $sheet2->setCellValue('D'.$row, $pedido['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido['valorDeStockSoles']);
             $row++;
             $total_cobranza_cocina+=$pedido['suma_totales'];
+            $total_cobranza_cocina_costoPromedio+=$pedido['costoPromedioSoles'];
+            $total_cobranza_cocina_valorStock+=$pedido['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cobranza_cocina);
+        $sheet2->setCellValue('F'.$row, $total_cobranza_cocina_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cobranza_cocina_valorStock);
         $style = $sheet2->getStyle('E'.$row);
+        $style = $sheet2->getStyle('F'.$row);
+        $style = $sheet2->getStyle('G'.$row);
         $font = $style->getFont();
         $font->setBold(true);
         $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
 
         $row++;
         $row++;
-        $sheet2->mergeCells('A'.$row.':E'.$row);
+        $sheet2->mergeCells('A'.$row.':G'.$row);
         $sheet2->setCellValue('A'.$row, 'CORTESIA');
-        $sheet2->getStyle('A'.$row.':E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $row++;
         $sheet2->setCellValue('A'.$row, 'PRODUCTO');
         $sheet2->setCellValue('B'.$row, 'VECES');
         $sheet2->setCellValue('C'.$row, 'PRECIO');
         $sheet2->setCellValue('D'.$row, 'CANTIDAD');
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
         $row++;
 
         $total_cortesia_cocina = 0;
+        $total_cortesia_cocina_costoPromedio = 0;
+        $total_cortesia_cocina_valorStock = 0;
         foreach ($pedidos_cocina_cortesia as $pedido_cortesia) {
             $sheet2->setCellValue('A'.$row, $pedido_cortesia['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_cortesia['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido_cortesia['precio']);
             $sheet2->setCellValue('D'.$row, $pedido_cortesia['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido_cortesia['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_cortesia['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_cortesia['valorDeStockSoles']);
             $row++;
             $total_cortesia_cocina+=$pedido_cortesia['suma_totales'];
+            $total_cortesia_cocina_costoPromedio+=$pedido_cortesia['costoPromedioSoles'];
+            $total_cortesia_cocina_valorStock+=$pedido_cortesia['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cortesia_cocina);
-        $style = $sheet2->getStyle('E'.$row);
-        $font = $style->getFont();
-        $font->setBold(true);
-        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
-
-        $row++;
-        $row++;
-        $sheet2->mergeCells('A'.$row.':E'.$row);
-        $sheet2->setCellValue('A'.$row, 'REPRESENTANTE');
-        $sheet2->getStyle('A'.$row.':E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $row++;
-        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
-        $sheet2->setCellValue('B'.$row, 'VECES');
-        $sheet2->setCellValue('C'.$row, 'PRECIO');
-        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
-        $sheet2->setCellValue('E'.$row, 'IMPORTE');
-        $row++;
-
-        $total_representante_cocina = 0;
-        foreach ($pedidos_cocina_representante as $pedido_representante) {
-            $sheet2->setCellValue('A'.$row, $pedido_representante['nombre_producto']);
-            $sheet2->setCellValue('B'.$row, $pedido_representante['cantidad']);
-            $sheet2->setCellValue('C'.$row, $pedido_representante['precio']);
-            $sheet2->setCellValue('D'.$row, $pedido_representante['cantidad_ven']);
-            $sheet2->setCellValue('E'.$row, $pedido_representante['suma_totales']);
-            $row++;
-            $total_representante_cocina+=$pedido_representante['suma_totales'];
-        }
-        $sheet2->setCellValue('E'.$row, $total_representante_cocina);
+        $sheet2->setCellValue('F'.$row, $total_cortesia_cocina_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cortesia_cocina_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2752,8 +2745,47 @@ class Pedidos extends Controller{
         $row++;
         $row++;
         $sheet2->mergeCells('A'.$row.':G'.$row);
-        $sheet2->setCellValue('A'.$row, 'DESC. TRABAJADOR');
+        $sheet2->setCellValue('A'.$row, 'REPRESENTANTE');
         $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $row++;
+        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
+        $sheet2->setCellValue('B'.$row, 'VECES');
+        $sheet2->setCellValue('C'.$row, 'PRECIO');
+        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
+        $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
+        $row++;
+
+        $total_representante_cocina = 0;
+        $total_representante_cocina_costoPromedio = 0;
+        $total_representante_cocina_valorStock = 0;
+        foreach ($pedidos_cocina_representante as $pedido_representante) {
+            $sheet2->setCellValue('A'.$row, $pedido_representante['nombre_producto']);
+            $sheet2->setCellValue('B'.$row, $pedido_representante['cantidad']);
+            $sheet2->setCellValue('C'.$row, $pedido_representante['precio']);
+            $sheet2->setCellValue('D'.$row, $pedido_representante['cantidad_ven']);
+            $sheet2->setCellValue('E'.$row, $pedido_representante['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_representante['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_representante['valorDeStockSoles']);
+            $row++;
+            $total_representante_cocina+=$pedido_representante['suma_totales'];
+            $total_representante_cocina_costoPromedio+=$pedido_representante['costoPromedioSoles'];
+            $total_representante_cocina_valorStock+=$pedido_representante['valorDeStockSoles'];
+        }
+        $sheet2->setCellValue('E'.$row, $total_representante_cocina);
+        $sheet2->setCellValue('F'.$row, $total_representante_cocina_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_representante_cocina_valorStock);
+        $style = $sheet2->getStyle('E'.$row);
+        $font = $style->getFont();
+        $font->setBold(true);
+        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
+
+        $row++;
+        $row++;
+        $sheet2->mergeCells('A'.$row.':I'.$row);
+        $sheet2->setCellValue('A'.$row, 'DESC. TRABAJADOR');
+        $sheet2->getStyle('A'.$row.':I'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $row++;
         $sheet2->setCellValue('A'.$row, 'PRODUCTO');
         $sheet2->setCellValue('B'.$row, 'VECES');
@@ -2762,9 +2794,13 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
         $sheet2->setCellValue('F'.$row, 'TRABAJADOR');
         $sheet2->setCellValue('G'.$row, 'AUTORIZADOR');
+        $sheet2->setCellValue('H'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('I'.$row, 'VALOR STOCK SOLES');
         $row++;
 
         $total_desc_trabajador_cocina = 0;
+        $total_desc_trabajador_cocina_costoPromedio = 0;
+        $total_desc_trabajador_cocina_valorStock = 0;
         foreach ($pedidos_cocina_desc_trabajador as $pedido_desc_trabajador) {
             $sheet2->setCellValue('A'.$row, $pedido_desc_trabajador['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_desc_trabajador['cantidad']);
@@ -2773,10 +2809,16 @@ class Pedidos extends Controller{
             $sheet2->setCellValue('E'.$row, $pedido_desc_trabajador['suma_totales']);
             $sheet2->setCellValue('F'.$row, $pedido_desc_trabajador['desc_trab']);
             $sheet2->setCellValue('G'.$row, $pedido_desc_trabajador['autorizador']);
+            $sheet2->setCellValue('H'.$row, $pedido_desc_trabajador['costoPromedioSoles']);
+            $sheet2->setCellValue('I'.$row, $pedido_desc_trabajador['valorDeStockSoles']);
             $row++;
             $total_desc_trabajador_cocina+=$pedido_desc_trabajador['suma_totales'];
+            $total_desc_trabajador_cocina_costoPromedio+=$pedido_desc_trabajador['costoPromedioSoles'];
+            $total_desc_trabajador_cocina_valorStock+=$pedido_desc_trabajador['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_desc_trabajador_cocina);
+        $sheet2->setCellValue('H'.$row, $total_desc_trabajador_cocina_costoPromedio);
+        $sheet2->setCellValue('I'.$row, $total_desc_trabajador_cocina_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2796,77 +2838,29 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('C5', 'PRECIO');
         $sheet2->setCellValue('D5', 'CANTIDAD');
         $sheet2->setCellValue('E5', 'IMPORTE');
+        $sheet2->setCellValue('F5', 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G5', 'VALOR STOCK SOLES');
         
         $row = 6;
         $total_cobranza_bebidas = 0;
+        $total_cobranza_bebidas_costoPromedio = 0;
+        $total_cobranza_bebidas_valorStock = 0;
         foreach ($pedidos_bebidas_cobranza as $pedido) {
             $sheet2->setCellValue('A'.$row, $pedido['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido['precio']);
             $sheet2->setCellValue('D'.$row, $pedido['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido['valorDeStockSoles']);
             $row++;
             $total_cobranza_bebidas+=$pedido['suma_totales'];
+            $total_cobranza_bebidas_costoPromedio+=$pedido['costoPromedioSoles'];
+            $total_cobranza_bebidas_valorStock+=$pedido['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cobranza_bebidas);
-        $style = $sheet2->getStyle('E'.$row);
-        $font = $style->getFont();
-        $font->setBold(true);
-        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
-
-        $row++;
-        $row++;
-        $sheet2->mergeCells('A'.$row.':E'.$row);
-        $sheet2->setCellValue('A'.$row, 'CORTESIA');
-        $sheet2->getStyle('A'.$row.':E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $row++;
-        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
-        $sheet2->setCellValue('B'.$row, 'VECES');
-        $sheet2->setCellValue('C'.$row, 'PRECIO');
-        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
-        $sheet2->setCellValue('E'.$row, 'IMPORTE');
-        $row++;
-
-        $total_cortesia_bebidas = 0;
-        foreach ($pedidos_bebidas_cortesia as $pedido_cortesia) {
-            $sheet2->setCellValue('A'.$row, $pedido_cortesia['nombre_producto']);
-            $sheet2->setCellValue('B'.$row, $pedido_cortesia['cantidad']);
-            $sheet2->setCellValue('C'.$row, $pedido_cortesia['precio']);
-            $sheet2->setCellValue('D'.$row, $pedido_cortesia['cantidad_ven']);
-            $sheet2->setCellValue('E'.$row, $pedido_cortesia['suma_totales']);
-            $row++;
-            $total_cortesia_bebidas+=$pedido_cortesia['suma_totales'];
-        }
-        $sheet2->setCellValue('E'.$row, $total_cortesia_bebidas);
-        $style = $sheet2->getStyle('E'.$row);
-        $font = $style->getFont();
-        $font->setBold(true);
-        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
-
-        $row++;
-        $row++;
-        $sheet2->mergeCells('A'.$row.':E'.$row);
-        $sheet2->setCellValue('A'.$row, 'REPRESENTANTE');
-        $sheet2->getStyle('A'.$row.':E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $row++;
-        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
-        $sheet2->setCellValue('B'.$row, 'VECES');
-        $sheet2->setCellValue('C'.$row, 'PRECIO');
-        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
-        $sheet2->setCellValue('E'.$row, 'IMPORTE');
-        $row++;
-
-        $total_representante_bebidas = 0;
-        foreach ($pedidos_bebidas_representante as $pedido_representante) {
-            $sheet2->setCellValue('A'.$row, $pedido_representante['nombre_producto']);
-            $sheet2->setCellValue('B'.$row, $pedido_representante['cantidad']);
-            $sheet2->setCellValue('C'.$row, $pedido_representante['precio']);
-            $sheet2->setCellValue('D'.$row, $pedido_representante['cantidad_ven']);
-            $sheet2->setCellValue('E'.$row, $pedido_representante['suma_totales']);
-            $row++;
-            $total_representante_bebidas+=$pedido_representante['suma_totales'];
-        }
-        $sheet2->setCellValue('E'.$row, $total_representante_bebidas);
+        $sheet2->setCellValue('F'.$row, $total_cobranza_bebidas_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cobranza_bebidas_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2875,8 +2869,86 @@ class Pedidos extends Controller{
         $row++;
         $row++;
         $sheet2->mergeCells('A'.$row.':G'.$row);
-        $sheet2->setCellValue('A'.$row, 'DESC. TRABAJADOR');
+        $sheet2->setCellValue('A'.$row, 'CORTESIA');
         $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $row++;
+        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
+        $sheet2->setCellValue('B'.$row, 'VECES');
+        $sheet2->setCellValue('C'.$row, 'PRECIO');
+        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
+        $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
+        $row++;
+
+        $total_cortesia_bebidas = 0;
+        $total_cortesia_bebidas_costoPromedio = 0;
+        $total_cortesia_bebidas_valorStock = 0;
+        foreach ($pedidos_bebidas_cortesia as $pedido_cortesia) {
+            $sheet2->setCellValue('A'.$row, $pedido_cortesia['nombre_producto']);
+            $sheet2->setCellValue('B'.$row, $pedido_cortesia['cantidad']);
+            $sheet2->setCellValue('C'.$row, $pedido_cortesia['precio']);
+            $sheet2->setCellValue('D'.$row, $pedido_cortesia['cantidad_ven']);
+            $sheet2->setCellValue('E'.$row, $pedido_cortesia['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_cortesia['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_cortesia['valorDeStockSoles']);
+            $row++;
+            $total_cortesia_bebidas+=$pedido_cortesia['suma_totales'];
+            $total_cortesia_bebidas_costoPromedio+=$pedido_cortesia['costoPromedioSoles'];
+            $total_cortesia_bebidas_valorStock+=$pedido_cortesia['valorDeStockSoles'];
+        }
+        $sheet2->setCellValue('E'.$row, $total_cortesia_bebidas);
+        $sheet2->setCellValue('F'.$row, $total_cortesia_bebidas_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cortesia_bebidas_valorStock);
+        $style = $sheet2->getStyle('E'.$row);
+        $font = $style->getFont();
+        $font->setBold(true);
+        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
+
+        $row++;
+        $row++;
+        $sheet2->mergeCells('A'.$row.':G'.$row);
+        $sheet2->setCellValue('A'.$row, 'REPRESENTANTE');
+        $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $row++;
+        $sheet2->setCellValue('A'.$row, 'PRODUCTO');
+        $sheet2->setCellValue('B'.$row, 'VECES');
+        $sheet2->setCellValue('C'.$row, 'PRECIO');
+        $sheet2->setCellValue('D'.$row, 'CANTIDAD');
+        $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
+        $row++;
+
+        $total_representante_bebidas = 0;
+        $total_representante_bebidas_costoPromedio = 0;
+        $total_representante_bebidas_valorStock = 0;
+        foreach ($pedidos_bebidas_representante as $pedido_representante) {
+            $sheet2->setCellValue('A'.$row, $pedido_representante['nombre_producto']);
+            $sheet2->setCellValue('B'.$row, $pedido_representante['cantidad']);
+            $sheet2->setCellValue('C'.$row, $pedido_representante['precio']);
+            $sheet2->setCellValue('D'.$row, $pedido_representante['cantidad_ven']);
+            $sheet2->setCellValue('E'.$row, $pedido_representante['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_representante['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_representante['valorDeStockSoles']);
+            $row++;
+            $total_representante_bebidas+=$pedido_representante['suma_totales'];
+            $total_representante_bebidas_costoPromedio+=$pedido_representante['costoPromedioSoles'];
+            $total_representante_bebidas_valorStock+=$pedido_representante['valorDeStockSoles'];
+        }
+        $sheet2->setCellValue('E'.$row, $total_representante_bebidas);
+        $sheet2->setCellValue('F'.$row, $total_representante_bebidas_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_representante_bebidas_valorStock);
+        $style = $sheet2->getStyle('E'.$row);
+        $font = $style->getFont();
+        $font->setBold(true);
+        $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
+
+        $row++;
+        $row++;
+        $sheet2->mergeCells('A'.$row.':I'.$row);
+        $sheet2->setCellValue('A'.$row, 'DESC. TRABAJADOR');
+        $sheet2->getStyle('A'.$row.':I'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $row++;
         $sheet2->setCellValue('A'.$row, 'PRODUCTO');
         $sheet2->setCellValue('B'.$row, 'VECES');
@@ -2885,9 +2957,13 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
         $sheet2->setCellValue('F'.$row, 'TRABAJADOR');
         $sheet2->setCellValue('G'.$row, 'AUTORIZADOR');
+        $sheet2->setCellValue('H'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('I'.$row, 'VALOR STOCK SOLES');
         $row++;
 
         $total_desc_trabajador_bebidas = 0;
+        $total_desc_trabajador_bebidas_costoPromedio = 0;
+        $total_desc_trabajador_bebidas_valorStock = 0;
         foreach ($pedidos_bebidas_desc_trabajador as $pedido_desc_trabajador) {
             $sheet2->setCellValue('A'.$row, $pedido_desc_trabajador['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_desc_trabajador['cantidad']);
@@ -2896,8 +2972,12 @@ class Pedidos extends Controller{
             $sheet2->setCellValue('E'.$row, $pedido_desc_trabajador['suma_totales']);
             $sheet2->setCellValue('F'.$row, $pedido_desc_trabajador['desc_trab']);
             $sheet2->setCellValue('G'.$row, $pedido_desc_trabajador['autorizador']);
+            $sheet2->setCellValue('H'.$row, $pedido_desc_trabajador['costoPromedioSoles']);
+            $sheet2->setCellValue('I'.$row, $pedido_desc_trabajador['valorDeStockSoles']);
             $row++;
             $total_desc_trabajador_bebidas+=$pedido_desc_trabajador['suma_totales'];
+            $total_desc_trabajador_bebidas_costoPromedio+=$pedido_representante['costoPromedioSoles'];
+            $total_desc_trabajador_bebidas_valorStock+=$pedido_representante['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_desc_trabajador_bebidas);
         $style = $sheet2->getStyle('E'.$row);
@@ -2919,19 +2999,29 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('C5', 'PRECIO');
         $sheet2->setCellValue('D5', 'CANTIDAD');
         $sheet2->setCellValue('E5', 'IMPORTE');
+        $sheet2->setCellValue('F5', 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G5', 'VALOR STOCK SOLES');
         
         $row = 6;
         $total_cocteleria_cobranza = 0;
+        $total_cocteleria_cobranza_costoPromedio = 0;
+        $total_cocteleria_cobranza_valorStock = 0;
         foreach ($pedidos_cocteleria_cobranza as $pedido) {
             $sheet2->setCellValue('A'.$row, $pedido['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido['precio']);
             $sheet2->setCellValue('D'.$row, $pedido['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido['valorDeStockSoles']);
             $row++;
             $total_cocteleria_cobranza+=$pedido['suma_totales'];
+            $total_cocteleria_cobranza_costoPromedio+=$pedido['costoPromedioSoles'];
+            $total_cocteleria_cobranza_valorStock+=$pedido['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cocteleria_cobranza);
+        $sheet2->setCellValue('F'.$row, $total_cocteleria_cobranza_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cocteleria_cobranza_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2939,28 +3029,39 @@ class Pedidos extends Controller{
 
         $row++;
         $row++;
-        $sheet2->mergeCells('A'.$row.':E'.$row);
+        $sheet2->mergeCells('A'.$row.':G'.$row);
         $sheet2->setCellValue('A'.$row, 'CORTESIA');
-        $sheet2->getStyle('A'.$row.':E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $row++;
         $sheet2->setCellValue('A'.$row, 'PRODUCTO');
         $sheet2->setCellValue('B'.$row, 'VECES');
         $sheet2->setCellValue('C'.$row, 'PRECIO');
         $sheet2->setCellValue('D'.$row, 'CANTIDAD');
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
+        
         $row++;
 
         $total_cocteleria_cortesia = 0;
+        $total_cocteleria_cortesia_costoPromedio = 0;
+        $total_cocteleria_cortesia_valorStock = 0;
         foreach ($pedidos_cocteleria_cortesia as $pedido_cortesia) {
             $sheet2->setCellValue('A'.$row, $pedido_cortesia['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_cortesia['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido_cortesia['precio']);
             $sheet2->setCellValue('D'.$row, $pedido_cortesia['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido_cortesia['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_cortesia['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_cortesia['valorDeStockSoles']);
             $row++;
             $total_cocteleria_cortesia+=$pedido_cortesia['suma_totales'];
+            $total_cocteleria_cortesia_costoPromedio+=$pedido_cortesia['costoPromedioSoles'];
+            $total_cocteleria_cortesia_valorStock+=$pedido_cortesia['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cocteleria_cortesia);
+        $sheet2->setCellValue('F'.$row, $total_cocteleria_cortesia_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cocteleria_cortesia_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2977,19 +3078,29 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('C'.$row, 'PRECIO');
         $sheet2->setCellValue('D'.$row, 'CANTIDAD');
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
+        $sheet2->setCellValue('F'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G'.$row, 'VALOR STOCK SOLES');
         $row++;
 
         $total_cocteleria_representante = 0;
+        $total_cocteleria_representante_costoPromedio = 0;
+        $total_cocteleria_representante_valorStock = 0;
         foreach ($pedidos_cocteleria_representante as $pedido_representante) {
             $sheet2->setCellValue('A'.$row, $pedido_representante['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_representante['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido_representante['precio']);
             $sheet2->setCellValue('D'.$row, $pedido_representante['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido_representante['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido_representante['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido_representante['valorDeStockSoles']);
             $row++;
             $total_cocteleria_representante+=$pedido_representante['suma_totales'];
+            $total_cocteleria_representante_costoPromedio+=$pedido_representante['costoPromedioSoles'];
+            $total_cocteleria_representante_valorStock+=$pedido_representante['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cocteleria_representante);
+        $sheet2->setCellValue('F'.$row, $total_cocteleria_representante_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_cocteleria_representante_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -2997,9 +3108,9 @@ class Pedidos extends Controller{
 
         $row++;
         $row++;
-        $sheet2->mergeCells('A'.$row.':G'.$row);
+        $sheet2->mergeCells('A'.$row.':I'.$row);
         $sheet2->setCellValue('A'.$row, 'DESC. TRABAJADOR');
-        $sheet2->getStyle('A'.$row.':G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet2->getStyle('A'.$row.':I'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $row++;
         $sheet2->setCellValue('A'.$row, 'PRODUCTO');
         $sheet2->setCellValue('B'.$row, 'VECES');
@@ -3008,9 +3119,14 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('E'.$row, 'IMPORTE');
         $sheet2->setCellValue('F'.$row, 'TRABAJADOR');
         $sheet2->setCellValue('G'.$row, 'AUTORIZADOR');
+        $sheet2->setCellValue('H'.$row, 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('I'.$row, 'VALOR STOCK SOLES');
+        
         $row++;
 
         $total_cocteleria_desc_trabajador = 0;
+        $total_cocteleria_desc_trabajador_costoPromedio = 0;
+        $total_cocteleria_desc_trabajador_valorStock = 0;
         foreach ($pedidos_cocteleria_desc_trabajador as $pedido_desc_trabajador) {
             $sheet2->setCellValue('A'.$row, $pedido_desc_trabajador['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido_desc_trabajador['cantidad']);
@@ -3019,10 +3135,16 @@ class Pedidos extends Controller{
             $sheet2->setCellValue('E'.$row, $pedido_desc_trabajador['suma_totales']);
             $sheet2->setCellValue('F'.$row, $pedido_desc_trabajador['desc_trab']);
             $sheet2->setCellValue('G'.$row, $pedido_desc_trabajador['autorizador']);
+            $sheet2->setCellValue('H'.$row, $pedido_desc_trabajador['costoPromedioSoles']);
+            $sheet2->setCellValue('I'.$row, $pedido_desc_trabajador['valorDeStockSoles']);
             $row++;
             $total_cocteleria_desc_trabajador+=$pedido_desc_trabajador['suma_totales'];
+            $total_cocteleria_desc_trabajador_costoPromedio+=$pedido_desc_trabajador['costoPromedioSoles'];
+            $total_cocteleria_desc_trabajador_valorStock+=$pedido_desc_trabajador['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_cocteleria_desc_trabajador);
+        $sheet2->setCellValue('H'.$row, $total_cocteleria_desc_trabajador_costoPromedio);
+        $sheet2->setCellValue('I'.$row, $total_cocteleria_desc_trabajador_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);
@@ -3048,19 +3170,29 @@ class Pedidos extends Controller{
         $sheet2->setCellValue('C5', 'PRECIO');
         $sheet2->setCellValue('D5', 'CANTIDAD');
         $sheet2->setCellValue('E5', 'IMPORTE');
+        $sheet2->setCellValue('F5', 'COSTO PROMEDIO SOLES');
+        $sheet2->setCellValue('G5', 'VALOR STOCK SOLES');
         
         $row = 6;
         $total_boleteria = 0;
+        $total_boleteria_costoPromedio = 0;
+        $total_boleteria_valorStock = 0;
         foreach ($pedidos_boleteria as $pedido) {
             $sheet2->setCellValue('A'.$row, $pedido['nombre_producto']);
             $sheet2->setCellValue('B'.$row, $pedido['cantidad']);
             $sheet2->setCellValue('C'.$row, $pedido['precio']);
             $sheet2->setCellValue('D'.$row, $pedido['cantidad_ven']);
             $sheet2->setCellValue('E'.$row, $pedido['suma_totales']);
+            $sheet2->setCellValue('F'.$row, $pedido['costoPromedioSoles']);
+            $sheet2->setCellValue('G'.$row, $pedido['valorDeStockSoles']);
             $row++;
             $total_boleteria+=$pedido['suma_totales'];
+            $total_boleteria_costoPromedio+=$pedido['costoPromedioSoles'];
+            $total_boleteria_valorStock+=$pedido['valorDeStockSoles'];
         }
         $sheet2->setCellValue('E'.$row, $total_boleteria);
+        $sheet2->setCellValue('F'.$row, $total_boleteria_costoPromedio);
+        $sheet2->setCellValue('G'.$row, $total_boleteria_valorStock);
         $style = $sheet2->getStyle('E'.$row);
         $font = $style->getFont();
         $font->setBold(true);

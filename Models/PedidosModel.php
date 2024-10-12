@@ -1092,48 +1092,61 @@ class PedidosModel extends Query{
     {
         if($valor == 1){
             $sql = "SELECT pr.descripcion AS nombre_producto,
-            COUNT(pr.descripcion) AS cantidad,
-            dp.precio,
-            SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+                COUNT(pr.descripcion) AS cantidad,
+                dp.precio,
+                SUM(dp.cantidad) as cantidad_ven,
+                SUM(dp.total) AS suma_totales,
+                SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+                SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
                 JOIN ".db_conect."almacen al ON al.id = p.id_almacen_ini
-                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor AND p.estado = 0 AND p.fecha BETWEEN '$desde' AND '$hasta' AND al.nombre LIKE '$cod%'
+                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor 
+                AND p.estado = 0 AND p.fecha BETWEEN '$desde' AND '$hasta' 
+                AND al.nombre LIKE '$cod%'
                 GROUP BY pr.descripcion, dp.precio";
             $data = $this->selectAll($sql);
             return $data;
-        }else if($valor !=4){
+        } else if($valor != 4){
             $sql = "SELECT pr.descripcion AS nombre_producto,
-            COUNT(pr.descripcion) AS cantidad,
-            dp.precio,
-            SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+                COUNT(pr.descripcion) AS cantidad,
+                dp.precio,
+                SUM(dp.cantidad) as cantidad_ven,
+                SUM(dp.total) AS suma_totales,
+                SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+                SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
                 JOIN ".db_conect."almacen al ON al.id = p.id_almacen_ini
-                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor AND p.estado = 0  AND p.fecha BETWEEN '$desde' AND '$hasta' AND al.nombre LIKE '$cod%'
+                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor 
+                AND p.estado = 0 AND p.fecha BETWEEN '$desde' AND '$hasta' 
+                AND al.nombre LIKE '$cod%'
                 GROUP BY pr.descripcion, dp.precio";
             $data = $this->selectAll($sql);
             return $data;
-        }else if($valor == 4){
+        } else if($valor == 4){
             $sql = "SELECT pr.descripcion AS nombre_producto,
-            u_trab_desc.nombre AS desc_trab,
-            u_autorizado.nombre AS autorizador,
-            COUNT(pr.descripcion) AS cantidad,
-            dp.precio,
-            SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+                u_trab_desc.nombre AS desc_trab,
+                u_autorizado.nombre AS autorizador,
+                COUNT(pr.descripcion) AS cantidad,
+                dp.precio,
+                SUM(dp.cantidad) as cantidad_ven,
+                SUM(dp.total) AS suma_totales,
+                SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+                SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
                 JOIN ".db_conect."almacen al ON al.id = p.id_almacen_ini
                 JOIN ".db_conect."usuarios u_trab_desc ON u_trab_desc.id = p.trab_desc
                 JOIN ".db_conect."usuarios u_autorizado ON u_autorizado.id = p.autorizado
-                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor AND p.estado = 0 AND p.fecha BETWEEN '$desde' AND '$hasta' AND al.nombre LIKE '$cod%'
-                GROUP BY p.trab_desc, p.autorizado, pr.descripcion, dp.precio";
+                WHERE dp.id_producto_asoc IS NULL AND p.tipo_pedido = $valor 
+                AND p.estado = 0 AND p.fecha BETWEEN '$desde' AND '$hasta' 
+                AND al.nombre LIKE '$cod%'
+                GROUP BY p.trab_desc, p.autorizado, pr.descripcion, dp.precio, 
+                u_trab_desc.nombre, u_autorizado.nombre";
             $data = $this->selectAll($sql);
             return $data;
         }
@@ -1146,7 +1159,9 @@ class PedidosModel extends Query{
             COUNT(pr.descripcion) AS cantidad,
             dp.precio,
             SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+			SUM(dp.total) AS suma_totales,
+            SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+            SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
@@ -1160,7 +1175,9 @@ class PedidosModel extends Query{
             COUNT(pr.descripcion) AS cantidad,
             dp.precio,
             SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+			SUM(dp.total) AS suma_totales,
+            SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+            SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
@@ -1176,7 +1193,9 @@ class PedidosModel extends Query{
             COUNT(pr.descripcion) AS cantidad,
             dp.precio,
             SUM(dp.cantidad) as cantidad_ven,
-			SUM(dp.total) AS suma_totales
+			SUM(dp.total) AS suma_totales,
+            SUM(dp.CostoPromedioSoles) AS costoPromedioSoles,
+            SUM(dp.ValorDeStockSoles) AS valorDeStockSoles
                 FROM ".db_conect."pedidos p
                 JOIN ".db_conect."detalle_pedidos dp ON dp.id_pedido = p.id
                 JOIN ".db_conect."productos pr ON pr.id = dp.id_producto
