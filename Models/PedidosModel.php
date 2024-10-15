@@ -65,15 +65,17 @@ class PedidosModel extends Query{
 
     public function getProductosCocteleria($id_almacen, $id_familia, $linea, $id_tarticulo, $desde, $porPagina)
     {
-        $sql = "EXEC stock_general($id_almacen,$id_familia, $linea, $id_tarticulo, $desde,$porPagina)";
-        $data = $this->selectall($sql);
+        $sql = "EXEC disco_2023.stock_general @p_id_almacen = ?, @p_id_familia = ?, @p_linea = ?, @p_id_tarticulo = ?, @p_desde = ?, @p_porPagina = ?";
+        $datos = array($id_almacen, $id_familia, $linea, $id_tarticulo, $desde, $porPagina);
+        $data = $this->selectAll($sql, $datos);
         return $data;
     }
 
     public function getProductosCocina($id_almacen, $id_familia, $linea, $id_tarticulo, $desde, $porPagina)
     {
-        $sql = "EXEC stock_general($id_almacen,$id_familia, $linea, $id_tarticulo, $desde,$porPagina)";
-        $data = $this->selectall($sql);
+        $sql = "EXEC disco_2023.stock_general @p_id_almacen = ?, @p_id_familia = ?, @p_linea = ?, @p_id_tarticulo = ?, @p_desde = ?, @p_porPagina = ?";
+        $datos = array($id_almacen, $id_familia, $linea, $id_tarticulo, $desde, $porPagina);
+        $data = $this->selectAll($sql, $datos);
         return $data;
     }
 
